@@ -1,5 +1,24 @@
 # TrayZen
 
+<table align="center">
+<tr>
+<td align="center">
+
+<img src="dark_theme.png" width="450">
+
+**Dark Theme**
+
+</td>
+<td align="center">
+
+<img src="bright_theme.png" width="450">
+
+**Bright Theme**
+
+</td>
+</tr>
+</table>
+
 **TrayZen** is a Windows 10 tray icon laboratory in the form of a clean desktop utility.  
 It treats the notification area as a controllable system surface: measurable, reproducible, and customizable.
 
