@@ -1,0 +1,95 @@
+<UserControl x:Class="TrayZen.Views.ProfilesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Loaded="OnLoaded">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="Profiles" FontSize="24" FontWeight="SemiBold"
+                   Foreground="{DynamicResource PrimaryTextBrush}" Margin="0,0,0,16" />
+
+        <!-- Create new -->
+        <Border Grid.Row="1" Style="{DynamicResource CardStyle}" Margin="0,0,0,8">
+            <Grid Margin="8,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0"
+                         Text="{Binding NewProfileName, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{DynamicResource SearchTextBoxStyle}"
+                         Tag="New profile name..." />
+                <Button Grid.Column="1" Content="Capture &amp; Save"
+                        Style="{DynamicResource PrimaryButtonStyle}"
+                        Command="{Binding CreateProfileCommand}" Margin="8,0,0,0" />
+            </Grid>
+        </Border>
+
+        <!-- Import button -->
+        <Button Grid.Row="2" Content="Import Profile"
+                Style="{DynamicResource SecondaryButtonStyle}"
+                Command="{Binding ImportProfileCommand}"
+                HorizontalAlignment="Left" Margin="0,0,0,12" />
+
+        <!-- Profile list -->
+        <ListView Grid.Row="3" ItemsSource="{Binding Profiles}"
+                  SelectedItem="{Binding SelectedProfile}"
+                  Style="{DynamicResource IconListStyle}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border Style="{DynamicResource IconRowStyle}" Margin="0,0,0,4">
+                        <Grid Height="64" Margin="4,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="12,0">
+                                <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="Medium"
+                                           Foreground="{DynamicResource PrimaryTextBrush}" />
+                                <TextBlock FontSize="11" Opacity="0.5"
+                                           Foreground="{DynamicResource SecondaryTextBrush}">
+                                    <Run Text="{Binding IconStates.Count, Mode=OneWay}" />
+                                    <Run Text="icons ·" />
+                                    <Run Text="{Binding CreatedAt, StringFormat='{}{0:MMM dd, yyyy}', Mode=OneWay}" />
+                                </TextBlock>
+                            </StackPanel>
+
+                            <Button Grid.Column="1" Content="Activate"
+                                    Style="{DynamicResource PrimaryButtonStyle}"
+                                    Command="{Binding DataContext.ActivateProfileCommand,
+                                              RelativeSource={RelativeSource AncestorType=ListView}}"
+                                    CommandParameter="{Binding}" Margin="0,0,4,0" />
+
+                            <Button Grid.Column="2" Content="&#xEDE1;" FontFamily="Segoe MDL2 Assets"
+                                    Style="{DynamicResource IconButtonStyle}" ToolTip="Export"
+                                    Command="{Binding DataContext.ExportProfileCommand,
+                                              RelativeSource={RelativeSource AncestorType=ListView}}"
+                                    CommandParameter="{Binding}" />
+
+                            <Button Grid.Column="3" Content="&#xE74D;" FontFamily="Segoe MDL2 Assets"
+                                    Style="{DynamicResource IconButtonStyle}" ToolTip="Delete"
+                                    Command="{Binding DataContext.DeleteProfileCommand,
+                                              RelativeSource={RelativeSource AncestorType=ListView}}"
+                                    CommandParameter="{Binding}" Margin="0,0,8,0" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <!-- Status message -->
+        <TextBlock Grid.Row="4" Text="{Binding StatusMessage}" FontSize="11"
+                   Foreground="{DynamicResource AccentBrush}" Margin="0,8,0,0" />
+    </Grid>
+</UserControl>
